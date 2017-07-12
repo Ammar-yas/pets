@@ -121,6 +121,22 @@ public class PetProvider extends ContentProvider {
      * for that specific row in the database.
      */
     private Uri insertPet(Uri uri, ContentValues values) {
+        // Check that the name is not null
+        String name = values.getAsString(PetEntry.COLUMN_PET_NAME);
+        if (name == null) {
+            throw new IllegalArgumentException("Pet requires a name");
+        }
+        if (values.getAsString(PetEntry.COLUMN_PET_BREED) == null) {
+
+            throw new IllegalArgumentException("Pet requires a breed");
+        }
+        if (values.getAsInteger(PetEntry.COLUMN_PET_GENDER) == null) {
+            throw new IllegalArgumentException("Pet requires gender");
+        }
+        if (values.getAsInteger(PetEntry.COLUMN_PET_WEIGHT) == null) {
+            throw new IllegalArgumentException("pet requires weight");
+        }
+
 
         SQLiteDatabase database = dbHelper.getWritableDatabase();
         long id = database.insert(PetEntry.TABLE_NAME, null, values);
