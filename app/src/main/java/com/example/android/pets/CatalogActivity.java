@@ -15,6 +15,7 @@
  */
 package com.example.android.pets;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -27,6 +28,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.pets.data.PetContract.PetEntry;
 import com.example.android.pets.data.PetDbHelper;
@@ -150,7 +152,7 @@ public class CatalogActivity extends AppCompatActivity {
      */
     private void insertPet() {
         // Gets the database in write mode
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        //SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         // Create a ContentValues object where column names are the keys,
         // and Toto's pet attributes are the values.
@@ -167,7 +169,15 @@ public class CatalogActivity extends AppCompatActivity {
         // this is set to "null", then the framework will not insert a row when
         // there are no values).
         // The third argument is the ContentValues object containing the info for Toto.
-        long newRowId = db.insert(PetEntry.TABLE_NAME, null, values);
+        /*long newRowId = db.insert(PetEntry.TABLE_NAME, null, values);*/
+
+        Uri newUri = getContentResolver().insert(PetEntry.CONTENT_URI, values);
+
+        if (newUri == null) {
+            Toast.makeText(this, getString(R.string.insert_pet_failed), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, getString(R.string.insert_pet_successful), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
