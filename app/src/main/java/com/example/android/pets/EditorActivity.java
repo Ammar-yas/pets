@@ -119,7 +119,15 @@ public class EditorActivity extends AppCompatActivity {
         String nameString = mNameEditText.getText().toString().trim();
         String breedString = mBreedEditText.getText().toString().trim();
         String weightString = mWeightEditText.getText().toString().trim();
-        int weight = Integer.parseInt(weightString);
+        int weight = 0;
+        if (!TextUtils.isEmpty(weightString)) {
+        weight = Integer.parseInt(weightString);
+        }
+        
+        
+        if (mCurrentPetUri == null &&
+         TextUtils.isEmpty(nameString) && TextUtils.isEmpty(breedString) &&
+         TextUtils.isEmpty(weightString) && mGender == PetEntry.GENDER_UNKNOWN) {return;}
 
         // Create database helper
         PetDbHelper mDbHelper = new PetDbHelper(this);
